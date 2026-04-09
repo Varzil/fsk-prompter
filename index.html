@@ -3,424 +3,701 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IB Prompt Generator — Fountainhead School</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          50:  'var(--c-50)',
-          100: 'var(--c-100)',
-          200: 'var(--c-200)',
-          300: 'var(--c-300)',
-          400: 'var(--c-400)',
-          500: 'var(--c-500)',
-          600: 'var(--c-600)',
-          700: 'var(--c-700)',
-          800: 'var(--c-800)',
-          900: 'var(--c-900)',
-        },
-        accent: {
-          50:  'var(--a-50)',
-          100: 'var(--a-100)',
-          200: 'var(--a-200)',
-          400: 'var(--a-400)',
-          500: 'var(--a-500)',
-          600: 'var(--a-600)',
-          700: 'var(--a-700)',
-        },
-        surface: {
-          0:   'var(--s-0)',
-          50:  'var(--s-50)',
-          100: 'var(--s-100)',
-          200: 'var(--s-200)',
-          300: 'var(--s-300)',
-        },
-        ink: {
-          DEFAULT: 'var(--ink)',
-          muted:   'var(--ink-muted)',
-          faint:   'var(--ink-faint)',
-        },
-        myp:  { light: '#fce8ee', DEFAULT: '#e8a0b0', dark: '#c0405a' },
-        dp:   { light: '#d6ebf7', DEFAULT: '#7bafd4', dark: '#2a5c80' },
-      },
-      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-    }
-  }
-}
-</script>
-<style>
-/* ═══════════════════════════════════════════════════════
-   THEME VARIABLES — Edit these to re-brand instantly
-   ═══════════════════════════════════════════════════════ */
-:root {
-  /* Primary brand palette (blue-navy) */
-  --c-50:  #eff6ff; --c-100: #dbeafe; --c-200: #bfdbfe;
-  --c-300: #93c5fd; --c-400: #60a5fa; --c-500: #3b82f6;
-  --c-600: #2563eb; --c-700: #1d4ed8; --c-800: #1e3a5f;
-  --c-900: #172554;
-  /* Accent palette (amber) */
-  --a-50:  #fffbeb; --a-100: #fef3c7; --a-200: #fde68a;
-  --a-400: #fbbf24; --a-500: #f59e0b; --a-600: #d97706;
-  --a-700: #b45309;
-  /* Surface / background */
-  --s-0:   #ffffff; --s-50:  #f8fafc; --s-100: #f1f5f9;
-  --s-200: #e2e8f0; --s-300: #cbd5e1;
-  /* Ink / text */
-  --ink:       #1e293b;
-  --ink-muted: #64748b;
-  --ink-faint: #94a3b8;
-  /* Misc */
-  --radius: 0.75rem;
-}
-html { scroll-behavior: smooth }
-body { font-family: 'Inter', system-ui, sans-serif; }
+<title>Fountainhead Simulation Prompt Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Recoleta:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 
-/* Toast animation */
-@keyframes toastIn  { from { transform: translateX(120%); opacity:0 } to { transform: translateX(0); opacity:1 } }
-@keyframes toastOut { from { transform: translateX(0); opacity:1 } to { transform: translateX(120%); opacity:0 } }
-.toast-in  { animation: toastIn .3s ease forwards }
-.toast-out { animation: toastOut .3s ease forwards }
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px }
-::-webkit-scrollbar-track { background: var(--s-50) }
-::-webkit-scrollbar-thumb { background: var(--s-300); border-radius: 3px }
-::-webkit-scrollbar-thumb:hover { background: var(--ink-faint) }
-
-/* Transition helper */
-.tr { transition: all .2s ease }
-</style>
 </head>
-<body class="bg-surface-50 text-ink min-h-screen">
+<body>
 
-<!-- ═══════════════ TOAST CONTAINER ═══════════════ -->
-<div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
-
-<!-- ═══════════════ HEADER ═══════════════ -->
-<header class="bg-white border-b border-surface-200 sticky top-0 z-40">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-    <div class="flex items-center gap-3 min-w-0">
-      <div class="w-9 h-9 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">FH</div>
-      <div class="min-w-0">
-        <h1 class="text-base sm:text-lg font-bold text-ink truncate">IB Prompt Generator</h1>
-        <p class="text-xs text-ink-faint hidden sm:block">Fountainhead School — MYP &amp; DP Teaching Tools</p>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="fade-in">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Fountainhead School · IB PD Tools</div>
+      <div class="site-title">SVG Simulation<br><em>Prompt Studio</em></div>
+      <p class="site-sub">Choose your programme and subject, pick a curriculum topic, select a Prompt Enhancement Framework, customise — and get a fully-built Claude prompt in seconds.</p>
+      <div class="header-tags">
+        <span class="htag ht-br">IB MYP</span>
+        <span class="htag ht-sky">IB DP</span>
+        <span class="htag ht-rose">All Subjects</span>
+        <span class="htag ht-sage">Animated SVG</span>
+        <span class="htag ht-gold">9 Prompt Frameworks</span>
+        <span class="htag ht-br">GitHub Guide</span>
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <button onclick="toggleHistory()" class="tr p-2 rounded-lg hover:bg-surface-100 text-ink-muted" title="Prompt History">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </button>
-    </div>
-  </div>
-  <!-- Tab Nav -->
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex gap-1">
-    <button onclick="switchTab('sim')" id="tab-btn-sim" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-brand-600 text-brand-700 tr">Simulation Prompter</button>
-    <button onclick="switchTab('enhance')" id="tab-btn-enhance" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-ink-muted hover:text-ink tr">Prompt Enhancer</button>
-    <button onclick="switchTab('guide')" id="tab-btn-guide" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-ink-muted hover:text-ink tr">PD Guide</button>
   </div>
 </header>
 
-<!-- ═══════════════ MAIN ═══════════════ -->
-<main class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('gen',this)">Prompt Generator</button>
+  <button class="tab-btn" onclick="switchTab('frameworks',this)">Framework Guide</button>
+  <button class="tab-btn" onclick="switchTab('guide',this)">PD Guide</button>
+  <button class="tab-btn" onclick="switchTab('github',this)">GitHub Hosting</button>
+</div>
 
-<!-- ─────────── TAB 1: SIMULATION PROMPTER ─────────── -->
-<div id="tab-sim" class="tab-panel">
+<!-- ════════════════════ TAB 1: GENERATOR ════════════════════ -->
+<div class="tab-content active" id="tab-gen">
+<div class="main">
 
-  <!-- Programme Toggle -->
-  <div class="flex flex-wrap gap-2 mb-6">
-    <button onclick="setProg('MYP')" id="prog-myp" class="tr px-5 py-2 rounded-full text-sm font-bold border-2 border-myp bg-myp-light text-myp-dark">MYP</button>
-    <button onclick="setProg('DP')" id="prog-dp" class="tr px-5 py-2 rounded-full text-sm font-bold border-2 border-surface-200 bg-white text-ink-muted hover:border-dp">DP</button>
+  <!-- STEP 1 -->
+  <div class="step-row">
+    <div class="step-num sn-acc">1</div>
+    <div class="step-title">Choose your programme</div>
+  </div>
+  <p class="step-desc">Selecting MYP shows only MYP subjects; DP shows only DP subjects. Grade options filter accordingly.</p>
+  <div class="prog-row">
+    <button class="prog-btn a-myp" id="btn-myp" onclick="setProg('MYP')">MYP — Middle Years</button>
+    <button class="prog-btn" id="btn-dp" onclick="setProg('DP')">DP — Diploma Programme</button>
   </div>
 
-  <!-- Subject Grid -->
-  <div class="mb-6">
-    <h2 class="text-sm font-bold text-ink-muted uppercase tracking-wider mb-3">Choose a Subject</h2>
-    <div id="subj-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+  <!-- STEP 2 -->
+  <div class="step-row">
+    <div class="step-num sn-rose">2</div>
+    <div class="step-title">Choose your subject</div>
+  </div>
+  <p class="step-desc">Only subjects belonging to the selected programme are shown.</p>
+  <div class="subj-grid" id="subj-grid"></div>
+
+  <!-- STEP 3: TOPIC -->
+  <div id="topic-section" style="display:none">
+    <div class="step-row">
+      <div class="step-num sn-acc">3</div>
+      <div class="step-title">Pick a simulation topic</div>
+    </div>
+    <p class="step-desc">A full explanation of what the simulation does appears on selection.</p>
+    <div class="topic-wrap">
+      <select id="topic-select" onchange="onTopicChange()">
+        <option value="">— choose a topic —</option>
+      </select>
+      <div class="sel-arr">▼</div>
+    </div>
+    <div id="topic-explain" style="display:none" class="explain-box ex-br fade-in"></div>
   </div>
 
-  <!-- Topic Selector -->
-  <div id="topic-section" class="hidden mb-6">
-    <h2 class="text-sm font-bold text-ink-muted uppercase tracking-wider mb-3">Pick a Topic</h2>
-    <select id="topic-select" onchange="onTopicChange()" class="w-full p-3 rounded-xl border-2 border-surface-200 bg-white text-sm font-semibold focus:border-brand-500 focus:ring-0 outline-none tr">
-      <option value="">— choose a topic —</option>
-    </select>
-    <div id="topic-explain" class="hidden mt-3 p-4 rounded-xl border-l-4 text-sm leading-relaxed"></div>
-  </div>
+  <!-- STEP 4: PROMPT ENHANCEMENT FRAMEWORKS -->
+  <div id="enhancer-section" style="display:none">
+    <div class="step-row">
+      <div class="step-num sn-gold">4</div>
+      <div class="step-title">Select prompt enhancement frameworks</div>
+    </div>
+    <p class="step-desc">Each framework adds specific instructional structures to your generated prompt — shaping how Claude builds and presents the simulation. Select any combination. See the Framework Guide tab for detailed explanations.</p>
 
-  <!-- Customization -->
-  <div id="custom-section" class="hidden mb-6">
-    <h2 class="text-sm font-bold text-ink-muted uppercase tracking-wider mb-3">Customise</h2>
-    <div class="bg-white border border-surface-200 rounded-2xl p-5 space-y-5">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="enhancer-panel">
+      <div class="enhancer-header">
+        <div class="enhancer-icon">✦</div>
         <div>
-          <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Grade Level</label>
-          <select id="f-grade" class="w-full p-2.5 rounded-lg border border-surface-200 text-sm font-medium focus:border-brand-500 outline-none tr">
-            <option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option>
+          <div class="enhancer-title">Prompt Enhancement Frameworks</div>
+          <div class="enhancer-sub">Select one or more frameworks — each adds a distinct instructional layer to your Claude prompt. Combining frameworks multiplies depth.</div>
+        </div>
+      </div>
+
+      <div class="framework-grid" id="fw-grid">
+
+        <div class="fw-card" data-fw="RTF" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Pedagogy</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">RTF</div>
+          <div class="fw-name">Relevant · Transparent · Feedback</div>
+          <div class="fw-desc">Ensures the simulation is grounded in prior knowledge, states learning objectives transparently, and builds feedback loops into every round.</div>
+          <div class="fw-adds">
+            <span>States learning goals at simulation start</span>
+            <span>Connects each variable to prior curriculum</span>
+            <span>Explicit feedback after every decision</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="SPARK" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Engagement</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">SPARK</div>
+          <div class="fw-name">Specific · Purposeful · Adaptive · Relevant · Knowledge-building</div>
+          <div class="fw-desc">Creates prompts that adapt to student performance and ensure every simulation element serves a clear learning purpose — nothing decorative.</div>
+          <div class="fw-adds">
+            <span>Each round builds on the previous</span>
+            <span>Adaptive difficulty nudges mid-game</span>
+            <span>Purpose statement for each variable</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="CREATE" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Creativity</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">CREATE</div>
+          <div class="fw-name">Creative · Relevant · Engaging · Authentic · Thoughtful · Exploratory</div>
+          <div class="fw-desc">Emphasises creative and exploratory thinking — students are invited to design their own scenarios, not just react to preset ones.</div>
+          <div class="fw-adds">
+            <span>Open-ended "what if" exploration mode</span>
+            <span>Student can propose alternative variables</span>
+            <span>Reflective creative design challenge at end</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="GRADE" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Assessment</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">GRADE</div>
+          <div class="fw-name">Goals · Rigor · Audience · Differentiation · Evidence</div>
+          <div class="fw-desc">Focuses on assessment-linked design — clear goals, appropriate challenge, differentiated entry points, and evidence-collection for teacher review.</div>
+          <div class="fw-adds">
+            <span>IB criterion alignment stated per round</span>
+            <span>Three difficulty entry points (SL/HL/Extended)</span>
+            <span>Evidence log students can screenshot/save</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="PERSONA" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Role-play</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">PERSONA</div>
+          <div class="fw-name">Persona Prompting</div>
+          <div class="fw-desc">Assigns Claude a specific expert persona within the simulation context — the AI responds as a domain specialist, making outputs richer and more contextually accurate.</div>
+          <div class="fw-adds">
+            <span>Claude adopts subject-expert voice</span>
+            <span>Advisor characters speak in-character</span>
+            <span>Results explained from expert perspective</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="COT" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Reasoning</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">CoT</div>
+          <div class="fw-name">Chain of Thought</div>
+          <div class="fw-desc">Before advancing each round, students must write their reasoning step-by-step: "I chose X because… which will lead to… because…" — externalising thinking.</div>
+          <div class="fw-adds">
+            <span>Mandatory reasoning box before each advance</span>
+            <span>Claude evaluates the chain after revealing</span>
+            <span>Highlights gaps in student logic explicitly</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="TOT" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Branching</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">ToT</div>
+          <div class="fw-name">Tree of Thought</div>
+          <div class="fw-desc">Before revealing the result, the simulation shows students three plausible future branches based on their choices. Students evaluate each branch, then the real outcome is revealed.</div>
+          <div class="fw-adds">
+            <span>3 possible futures shown before reveal</span>
+            <span>Students rank branches by likelihood</span>
+            <span>Discussion: why did X happen, not Y or Z?</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="REACT" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Action Cycle</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">ReAct</div>
+          <div class="fw-name">Reason · Act · Observe · Reflect</div>
+          <div class="fw-desc">Structures each round as a four-stage cycle: Reason (state your hypothesis) → Act (set sliders) → Observe (see results) → Reflect (revise your mental model).</div>
+          <div class="fw-adds">
+            <span>Explicit RAOR stage labels each round</span>
+            <span>Hypothesis written before acting</span>
+            <span>Mental model revision prompt after observe</span>
+          </div>
+        </div>
+
+        <div class="fw-card" data-fw="SC" onclick="toggleFW(this)">
+          <div class="fw-top">
+            <span class="fw-badge">Verification</span>
+            <div class="fw-check">✓</div>
+          </div>
+          <div class="fw-acro">SC</div>
+          <div class="fw-name">Self-Consistency</div>
+          <div class="fw-desc">After students predict, three expert advisor characters each make their own prediction with brief reasoning. Students compare their logic to expert reasoning before the reveal.</div>
+          <div class="fw-adds">
+            <span>3 advisor predictions with reasoning shown</span>
+            <span>Student compares own logic to advisors</span>
+            <span>Post-reveal: whose reasoning was most accurate?</span>
+          </div>
+        </div>
+
+      </div><!-- /framework-grid -->
+
+      <div class="sel-count none" id="fw-count">0 frameworks selected — simulation will use default structure</div>
+
+      <div class="enhancer-note">
+        <strong>Combining frameworks:</strong> Selecting multiple frameworks layers their effects. For example, <strong>Chain of Thought + ReAct</strong> creates a deeply metacognitive experience — students reason step-by-step AND follow a structured Reason→Act→Observe→Reflect cycle each round. <strong>Tree of Thought + Self-Consistency</strong> turns the simulation into a collaborative reasoning exercise with multiple perspectives before the reveal.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: CUSTOMISE -->
+  <div id="custom-section" style="display:none">
+    <div class="step-row">
+      <div class="step-num sn-sage">5</div>
+      <div class="step-title">Customise your simulation</div>
+    </div>
+    <p class="step-desc">All fields have smart defaults — only change what matters for your class.</p>
+    <div class="card">
+      <div class="cust-grid">
+        <div class="field">
+          <label>Grade / Year level</label>
+          <select id="f-grade">
+            <option value="6">Grade 6</option><option value="7">Grade 7</option>
+            <option value="8">Grade 8</option><option value="9" selected>Grade 9</option>
+            <option value="10">Grade 10</option><option value="11">Year 11</option>
+            <option value="12">Year 12</option>
           </select>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Rounds</label>
-          <select id="f-rounds" class="w-full p-2.5 rounded-lg border border-surface-200 text-sm font-medium focus:border-brand-500 outline-none tr">
+        <div class="field">
+          <label>Number of rounds / phases</label>
+          <select id="f-rounds">
             <option value="3">3 rounds</option><option value="4">4 rounds</option>
-            <option value="5" selected>5 rounds</option><option value="6">6 rounds</option>
+            <option value="5" selected>5 rounds (recommended)</option><option value="6">6 rounds</option>
           </select>
         </div>
-      </div>
-
-      <!-- Visual Style Chips -->
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-2">Visual Style</label>
-        <div id="style-chips" class="flex flex-wrap gap-2">
-          <button data-val="Bright, playful, cartoonish. Rounded characters, bold colours, friendly Google Font headings. Animated and fun." class="chip-style chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">🎨 Bright &amp; playful</button>
-          <button data-val="Clean, scientific, data-focused. Minimal aesthetic, monospace labels, precision diagrams, cool palette." class="chip-style tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">🔬 Scientific</button>
-          <button data-val="Warm, storybook style. Earthy tones, illustrated characters, narrative atmosphere, Playfair serif headings." class="chip-style tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">📖 Storybook</button>
-          <button data-val="Sleek, dark dashboard. Chart-heavy, professional look, cool blues and dark backgrounds, modern tech feel." class="chip-style tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">📊 Dashboard</button>
+        <div class="field field-full">
+          <label>Extra context for Claude (optional)</label>
+          <textarea id="f-context" placeholder="e.g. Students have already studied cell respiration. This is a summative task. Keep language accessible for EAL learners."></textarea>
         </div>
       </div>
-
-      <!-- Scaffolding Chips -->
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-2">Scaffolding</label>
-        <div id="scaffold-chips" class="flex flex-wrap gap-2">
-          <button data-val="Include guiding questions at each phase BEFORE the result is revealed." class="chip-toggle chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">💡 Guiding questions</button>
-          <button data-val="Students must lock in a prediction before each round advances." class="chip-toggle chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">🔮 Predict before reveal</button>
-          <button data-val="Include a visible ATL skills tracker panel." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">📋 ATL tracker</button>
-          <button data-val="Show cause-and-effect chain after every round." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">⚡ Cause-effect</button>
-          <button data-val="Add a teacher notes panel toggled by pressing T key." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">👩‍🏫 Teacher panel</button>
+      <div class="field" style="margin-bottom:14px">
+        <label>Visual style</label>
+        <div class="chip-row" id="style-chips">
+          <span class="chip on" data-val="Bright, playful, cartoonish. Rounded characters, bold colours, friendly Google Font headings. Animated and fun.">Bright &amp; playful</span>
+          <span class="chip" data-val="Clean, scientific, data-focused. Minimal aesthetic, monospace labels, precision diagrams, cool palette.">Scientific &amp; precise</span>
+          <span class="chip" data-val="Warm, storybook style. Earthy tones, illustrated characters, narrative atmosphere, Recoleta serif headings.">Storybook &amp; warm</span>
+          <span class="chip" data-val="Sleek, dark dashboard. Chart-heavy, professional look, cool blues and dark backgrounds, modern tech feel.">Dashboard &amp; modern</span>
         </div>
       </div>
-
-      <!-- Features Chips -->
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-2">Simulation Features</label>
-        <div id="feature-chips" class="flex flex-wrap gap-2">
-          <button data-val="Animated SVG scene that changes visually as resources change." class="chip-toggle chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">🎬 Animated scene</button>
-          <button data-val="Resource bars (0-100) that animate and colour-shift." class="chip-toggle chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">📊 Resource bars</button>
-          <button data-val="Canvas line chart tracking all metrics across rounds." class="chip-toggle chip-on tr text-xs font-semibold px-3 py-1.5 rounded-full border">📈 Trend chart</button>
-          <button data-val="Random event cards that trigger mid-game." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">🎲 Random events</button>
-          <button data-val="IB reflection panel with discussion questions." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">💭 Reflection panel</button>
-          <button data-val="Splash screen with simulation name and Start button." class="chip-toggle tr text-xs font-semibold px-3 py-1.5 rounded-full border border-surface-200 bg-white text-ink-muted">🚀 Splash screen</button>
+      <div class="field" style="margin-bottom:14px">
+        <label>Student scaffolding</label>
+        <div class="chip-row" id="scaffold-chips">
+          <span class="chip on" data-val="Include guiding questions at each phase BEFORE the result is revealed.">Guiding questions</span>
+          <span class="chip on" data-val="Students must lock in a prediction before each round advances. The Advance button is DISABLED until prediction is selected.">Predict before reveal</span>
+          <span class="chip" data-val="Include a visible ATL skills tracker in a corner panel.">ATL skills tracker</span>
+          <span class="chip" data-val="Show a cause-and-effect chain after every round outcome — A→B→C reasoning.">Cause-effect chains</span>
+          <span class="chip" data-val="After each result, show a learner profile chip — students tap which LP attribute their decision reflects.">Learner profile link</span>
+          <span class="chip" data-val="Add a teacher notes panel toggled by pressing T — shows marking criteria, model answers, and facilitation tips.">Teacher panel (T key)</span>
         </div>
       </div>
-
-      <!-- Extra Context -->
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Extra Context (optional)</label>
-        <textarea id="f-context" rows="2" placeholder="e.g. Students have studied cell respiration. This is for Criterion B. Keep language accessible for EAL learners." class="w-full p-3 rounded-lg border border-surface-200 text-sm focus:border-brand-500 outline-none tr resize-y"></textarea>
+      <div class="field">
+        <label>Simulation features</label>
+        <div class="chip-row" id="feature-chips">
+          <span class="chip on" data-val="Animated SVG scene that changes visually as resources change — trees shrink, water changes colour, buildings appear/disappear.">Animated scene</span>
+          <span class="chip on" data-val="Resource bars (0–100) that animate and colour-shift green→amber→red as values change.">Resource bars</span>
+          <span class="chip on" data-val="Canvas line chart tracking all resource metrics across all rounds.">Trend chart</span>
+          <span class="chip" data-val="Random event cards (e.g. drought, market crash, disease outbreak) that trigger mid-game.">Random events</span>
+          <span class="chip" data-val="Character advisor chip row — hoverable characters give IB-aligned hints.">Character advisors</span>
+          <span class="chip" data-val="IB reflection panel with 5 discussion questions aligned to ATL Thinking Skills.">Reflection panel</span>
+          <span class="chip" data-val="Real-world connections panel showing 3–4 real cases that mirror simulation outcomes.">Real-world links</span>
+          <span class="chip" data-val="Splash screen with simulation name, curriculum info, grade level, and animated Start button.">Splash screen</span>
+        </div>
       </div>
     </div>
-
-    <!-- Build Button -->
-    <div class="text-center mt-6">
-      <button onclick="buildPrompt()" class="tr px-8 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5">Generate Simulation Prompt →</button>
+    <div class="build-wrap">
+      <button class="build-btn" onclick="buildPrompt()">Generate my simulation prompt →</button>
     </div>
   </div>
 
-  <!-- Output -->
-  <div id="sim-output" class="hidden mb-8">
-    <div class="bg-white border border-surface-200 rounded-2xl overflow-hidden">
-      <div class="bg-surface-50 border-b border-surface-200 p-4 flex items-center justify-between flex-wrap gap-2">
-        <div>
-          <h3 class="font-bold text-sm">Your Simulation Prompt</h3>
-          <p id="sim-out-subtitle" class="text-xs text-ink-muted mt-0.5"></p>
-        </div>
-        <span id="sim-out-badge" class="text-xs font-bold px-3 py-1 rounded-full"></span>
+  <!-- OUTPUT -->
+  <div class="out-section fade-in" id="out-section">
+    <div class="out-hdr">
+      <div>
+        <div style="font-family:'Recoleta',serif;font-size:1.1rem;font-weight:600;color:var(--ink)">Your simulation prompt</div>
+        <div style="font-size:13px;color:var(--ink3);margin-top:3px" id="out-subtitle"></div>
       </div>
-      <pre id="sim-out-body" class="p-5 text-xs leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto font-mono text-ink bg-surface-50"></pre>
-      <div class="p-4 border-t border-surface-200 flex flex-wrap gap-2">
-        <button onclick="copyText('sim-out-body')" class="tr px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold">Copy Prompt</button>
-        <button onclick="openInClaude()" class="tr px-4 py-2 rounded-lg bg-ink hover:bg-brand-900 text-white text-xs font-bold">Open in Claude ↗</button>
-        <button onclick="openInChatGPT()" class="tr px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">Open in ChatGPT ↗</button>
-        <button onclick="openInGemini()" class="tr px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold">Open in Gemini ↗</button>
-        <button onclick="downloadPrompt()" class="tr px-4 py-2 rounded-lg border border-surface-200 hover:border-brand-400 text-xs font-bold text-ink-muted">Download .txt</button>
-        <button onclick="saveToHistory('sim')" class="tr px-4 py-2 rounded-lg border border-surface-200 hover:border-accent-400 text-xs font-bold text-ink-muted">Save to History</button>
+      <span class="badge" id="out-badge"></span>
+    </div>
+    <div class="out-body" id="out-body"></div>
+    <div class="out-footer">
+      <div id="fw-applied-bar" style="display:none" class="fw-applied-bar"></div>
+      <div style="font-size:12px;font-weight:700;color:var(--brl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Iteration auto-embedded</div>
+      <div style="font-size:14.5px;color:var(--ink2);line-height:1.7;font-weight:400">When you paste this into Claude, it generates the simulation then automatically asks which enhancement you'd like — simplified version, HL extension, retheme, teacher panel, worksheet, or bilingual toggle.</div>
+      <div class="act-row">
+        <button class="act act-dark" onclick="openInClaude()">Open in Claude ↗</button>
+        <button class="act act-br" id="btn-copy" onclick="copyPrompt()">Copy prompt</button>
+        <button class="act act-out" onclick="downloadPrompt()">Download .txt</button>
+        <button class="act act-out" onclick="resetAll()">Start over</button>
+      </div>
+    </div>
+
+    <!-- PROMPT MODIFIER -->
+    <div class="mod-panel">
+      <div class="mod-title">Prompt modifier — ask Claude to refine it</div>
+      <p style="font-size:14px;color:var(--ink3);margin-bottom:1rem;font-weight:400;line-height:1.65">Click any card to send a targeted follow-up to Claude — or type your own.</p>
+      <div class="mod-grid">
+        <div class="mod-card" onclick="sendMod('Simplify this simulation for EAL learners — reduce to 3 sliders, larger fonts, plain language, Grade 6 reading level.')">
+          <div class="mod-card-t">Simplify for EAL / lower grade</div>
+          <div class="mod-card-d">3 sliders, plain language, larger fonts</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Add HL extension questions — one IB exam-style higher-order question with mark allocation at the start of each round.')">
+          <div class="mod-card-t">Add HL extension questions</div>
+          <div class="mod-card-d">IB exam style, with mark allocations</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Add a hidden teacher panel (press T key) with: facilitation notes, expected misconceptions, model answers for each prediction, and IB marking criteria.')">
+          <div class="mod-card-t">Add teacher panel (T key)</div>
+          <div class="mod-card-d">Marking criteria, model answers, tips</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Generate a printable companion student worksheet with: prediction tables for each round, cause-effect boxes, reflection writing frames, and a self-assessment rubric.')">
+          <div class="mod-card-t">Generate student worksheet</div>
+          <div class="mod-card-d">Prediction tables, reflection frames</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Add a bilingual language toggle — English + Hindi. All UI text, instructions, and reflection questions should switch language when the toggle is clicked.')">
+          <div class="mod-card-t">Add bilingual mode (EN + Hindi)</div>
+          <div class="mod-card-d">Language toggle, full UI translated</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Change the visual style to a warm parchment / earthy brown palette — cream surfaces, brown headers (#3D2008), gold borders (#C49A6C), Recoleta serif headings.')">
+          <div class="mod-card-t">Retheme to parchment brown</div>
+          <div class="mod-card-d">Cream + brown + gold palette</div>
+        </div>
+        <div class="mod-card" onclick="sendMod('Add a ManageBac / Google Classroom submission system — students enter their name at the start, and the simulation logs their decisions and final scores as a downloadable CSV.')">
+          <div class="mod-card-t">Add submission / record system</div>
+          <div class="mod-card-d">Name entry + CSV download for teacher</div>
+        </div>
+        <div class="mod-card" onclick="openCustomMod()">
+          <div class="mod-card-t">Custom modification</div>
+          <div class="mod-card-d">Type your own change request ↗</div>
+        </div>
+      </div>
+      <div id="custom-mod-area" style="display:none;margin-top:1rem">
+        <div class="field">
+          <label>Your modification request</label>
+          <textarea id="custom-mod-txt" placeholder="Describe what you'd like Claude to change about the simulation..." style="min-height:80px"></textarea>
+        </div>
+        <div class="act-row" style="margin-top:8px">
+          <button class="act act-dark" onclick="sendCustomMod()">Send to Claude ↗</button>
+          <button class="act act-out" onclick="document.getElementById('custom-mod-area').style.display='none'">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
+</div><!-- /tab-gen -->
+<!-- ════════════════════ TAB 2: FRAMEWORK GUIDE ════════════════════ -->
+<div class="tab-content" id="tab-frameworks">
+<div class="main">
 
-<!-- ─────────── TAB 2: PROMPT ENHANCER ─────────── -->
-<div id="tab-enhance" class="tab-panel hidden">
-
-  <!-- Input -->
-  <div class="bg-white border border-surface-200 rounded-2xl p-5 mb-5">
-    <h2 class="text-sm font-bold text-ink mb-3">Your Prompt</h2>
-    <textarea id="enhance-input" rows="5" placeholder="Enter your teaching prompt here... e.g. 'Create a lesson plan about photosynthesis for Grade 10 DP Biology students.'" class="w-full p-3 rounded-lg border border-surface-200 text-sm focus:border-brand-500 outline-none tr resize-y"></textarea>
+  <div class="guide-sec">
+    <div class="sec-lbl">What Are Prompt Frameworks?</div>
+    <h2 class="guide-h">How Frameworks Enhance Your Simulation Prompt</h2>
+    <p class="guide-lead">A prompt framework is a structured instructional approach embedded directly into your Claude prompt. It tells Claude not just <em>what</em> to build, but <em>how students should cognitively engage</em> with it — changing the pedagogical architecture of the simulation itself.</p>
+    <div class="callout cl-info"><strong>Think of it this way:</strong> Without a framework, Claude builds a simulation. With Chain of Thought, Claude builds a simulation where students must verbalise their reasoning before every decision. With Tree of Thought, students evaluate three possible futures before the real one is revealed. The same topic, radically different learning experiences.</div>
   </div>
 
-  <!-- Framework Selection -->
-  <div class="bg-white border border-surface-200 rounded-2xl p-5 mb-5">
-    <h2 class="text-sm font-bold text-ink mb-3">Enhancement Frameworks</h2>
-    <div id="fw-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-  </div>
+  <div class="guide-sec">
+    <div class="sec-lbl">All 9 Frameworks</div>
+    <h2 class="guide-h">Framework Reference — What Each One Does</h2>
+    <div class="fw-detail-grid">
 
-  <!-- Optional Context -->
-  <div class="bg-white border border-surface-200 rounded-2xl p-5 mb-5">
-    <h2 class="text-sm font-bold text-ink mb-3">Optional Context</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Programme</label>
-        <select id="enh-prog" class="w-full p-2.5 rounded-lg border border-surface-200 text-sm font-medium focus:border-brand-500 outline-none tr">
-          <option value="">Any</option><option>MYP</option><option>DP</option>
-        </select>
+      <div class="fw-detail-card fwdc1">
+        <div class="fw-detail-name">RTF</div>
+        <div class="fw-detail-full">Relevant · Transparent · Feedback</div>
+        <div class="fw-detail-desc">Grounds the simulation in student prior knowledge, makes learning objectives explicitly visible at the start, and builds structured feedback loops into every round outcome.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds to your prompt:</strong><ul>
+          <li>Learning objectives banner at simulation start</li>
+          <li>Each variable labelled with the prior concept it connects to</li>
+          <li>Structured "What did you learn?" prompt after every result</li>
+          <li>Feedback framed as: "Your decision reflects… This connects to…"</li>
+        </ul></div>
       </div>
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Grade</label>
-        <select id="enh-grade" class="w-full p-2.5 rounded-lg border border-surface-200 text-sm font-medium focus:border-brand-500 outline-none tr">
-          <option value="">Any</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
-        </select>
+
+      <div class="fw-detail-card fwdc2">
+        <div class="fw-detail-name">SPARK</div>
+        <div class="fw-detail-full">Specific · Purposeful · Adaptive · Relevant · Knowledge-building</div>
+        <div class="fw-detail-desc">Ensures every simulation element has a declared purpose and that difficulty adapts to how students are performing — preventing frustration or boredom.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>Purpose tooltip on each slider ("This slider models…")</li>
+          <li>Mid-simulation nudge if student is repeatedly incorrect</li>
+          <li>Knowledge-building: each round recap builds into the next</li>
+          <li>Adaptive hint system triggered by poor prediction accuracy</li>
+        </ul></div>
       </div>
-      <div>
-        <label class="block text-xs font-bold text-ink-muted uppercase tracking-wide mb-1">Tone</label>
-        <select id="enh-tone" class="w-full p-2.5 rounded-lg border border-surface-200 text-sm font-medium focus:border-brand-500 outline-none tr">
-          <option>Professional</option><option>Conversational</option><option>Academic</option><option>Encouraging</option>
-        </select>
+
+      <div class="fw-detail-card fwdc3">
+        <div class="fw-detail-name">CREATE</div>
+        <div class="fw-detail-full">Creative · Relevant · Engaging · Authentic · Thoughtful · Exploratory</div>
+        <div class="fw-detail-desc">Opens the simulation beyond preset scenarios — students can propose their own variable values, suggest alternative outcomes, and design their own "what if" extension.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>"Design your own scenario" mode after round 3</li>
+          <li>Student can propose a new slider variable mid-game</li>
+          <li>Creative challenge: "Redesign this system to avoid collapse"</li>
+          <li>Open exploration phase with no locked prediction required</li>
+        </ul></div>
       </div>
+
+      <div class="fw-detail-card fwdc4">
+        <div class="fw-detail-name">GRADE</div>
+        <div class="fw-detail-full">Goals · Rigor · Audience · Differentiation · Evidence</div>
+        <div class="fw-detail-desc">Assessment-focused framework. Aligns each round to a specific IB criterion, provides three differentiated entry points, and generates evidence students can submit.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>IB criterion badge on each round (e.g. "Criterion B: Investigating")</li>
+          <li>Three difficulty tracks: Standard / Challenge / Extended HL</li>
+          <li>Evidence log panel — students can export decisions + outcomes</li>
+          <li>Self-assessment rubric at simulation end</li>
+        </ul></div>
+      </div>
+
+      <div class="fw-detail-card fwdc5">
+        <div class="fw-detail-name">Persona Prompting</div>
+        <div class="fw-detail-full">Role-based Expert Framing</div>
+        <div class="fw-detail-desc">Claude adopts the persona of a domain expert throughout the simulation — responses, advisor tips, and result explanations all come through the expert's voice and knowledge.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>Claude introduced as: "You are Dr. [Name], a veteran [specialist]…"</li>
+          <li>All advisor chips speak in-character as domain experts</li>
+          <li>Results explained: "As a marine biologist, I would note that…"</li>
+          <li>Expert language calibrated to the curriculum level</li>
+        </ul></div>
+      </div>
+
+      <div class="fw-detail-card fwdc1">
+        <div class="fw-detail-name">Chain of Thought (CoT)</div>
+        <div class="fw-detail-full">Step-by-Step Reasoning Externalisation</div>
+        <div class="fw-detail-desc">Before advancing each round, students must complete a reasoning chain in writing — "I chose X because… which will lead to… because… therefore I predict…" — making thinking visible.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>Mandatory reasoning text box before Advance activates</li>
+          <li>Advance button stays DISABLED until all chain blanks filled</li>
+          <li>After reveal: Claude evaluates the reasoning chain quality</li>
+          <li>Highlights logical gaps: "Step 2 of your chain assumed X, but…"</li>
+        </ul></div>
+      </div>
+
+      <div class="fw-detail-card fwdc2">
+        <div class="fw-detail-name">Tree of Thought (ToT)</div>
+        <div class="fw-detail-full">Multi-Path Futures Evaluation</div>
+        <div class="fw-detail-desc">Before the real result is revealed, three plausible future scenarios are shown based on the student's decisions. Students rank them by likelihood with reasoning — then the real outcome appears.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>Three "possible futures" cards shown before reveal</li>
+          <li>Students rank futures 1–3 by probability and briefly justify</li>
+          <li>Real outcome revealed with: "You chose [rank]. The actual outcome was…"</li>
+          <li>Discussion prompt: "Why did Future B happen instead of A?"</li>
+        </ul></div>
+      </div>
+
+      <div class="fw-detail-card fwdc3">
+        <div class="fw-detail-name">ReAct</div>
+        <div class="fw-detail-full">Reason · Act · Observe · Reflect</div>
+        <div class="fw-detail-desc">Structures every round as a four-stage explicit cycle — students move through labelled RAOR stages, keeping cognitive process visible and structured throughout.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>Round UI split into 4 labelled panels: Reason / Act / Observe / Reflect</li>
+          <li>REASON: Student writes hypothesis before touching sliders</li>
+          <li>OBSERVE: Results shown with structured reading guide</li>
+          <li>REFLECT: "How does this change your mental model?" — required field</li>
+        </ul></div>
+      </div>
+
+      <div class="fw-detail-card fwdc4">
+        <div class="fw-detail-name">Self-Consistency (SC)</div>
+        <div class="fw-detail-full">Multi-Perspective Verification</div>
+        <div class="fw-detail-desc">After the student makes a prediction, three advisor characters each make their own prediction with brief reasoning — visible to the student. Students compare reasoning before the reveal.</div>
+        <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
+          <li>3 advisor predictions with 1-sentence reasoning each</li>
+          <li>Student sees: "Advisor A predicts Thriving because… Do you agree?"</li>
+          <li>Post-reveal: "Which advisor's reasoning was most accurate? Why?"</li>
+          <li>Metacognitive prompt: "Did any advisor change your thinking?"</li>
+        </ul></div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Action -->
-  <div class="flex gap-3 mb-5">
-    <button onclick="enhanceWithAI()" id="enhance-btn" class="tr flex-1 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-lg hover:shadow-xl">✨ Enhance with AI</button>
-    <button onclick="saveToHistory('enhance')" class="tr px-6 py-3 rounded-xl border-2 border-surface-200 hover:border-brand-400 font-bold text-sm text-ink-muted">Save</button>
+  <div class="guide-sec">
+    <div class="sec-lbl">Combining Frameworks</div>
+    <h2 class="guide-h">Recommended Combinations by Learning Goal</h2>
+    <table class="anno-tbl">
+      <thead><tr><th>Learning Goal</th><th>Recommended Combination</th><th>Why It Works</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Deep metacognition</strong></td><td>Chain of Thought + ReAct</td><td>Students reason step-by-step AND follow a structured cognitive cycle — maximum thinking visibility</td></tr>
+        <tr><td><strong>Collaborative discussion</strong></td><td>Tree of Thought + Self-Consistency</td><td>Three futures + three advisor views give the class rich material to debate before and after the reveal</td></tr>
+        <tr><td><strong>Assessment-linked</strong></td><td>GRADE + RTF</td><td>Clear criterion alignment + transparent objectives + feedback loops = everything needed for summative use</td></tr>
+        <tr><td><strong>Creative / open-ended</strong></td><td>CREATE + SPARK</td><td>Students explore and propose their own scenarios while still being guided toward purposeful knowledge-building</td></tr>
+        <tr><td><strong>DP subject rigour</strong></td><td>Persona + Chain of Thought + GRADE</td><td>Expert voice + externalised reasoning + criterion alignment = closest to IB Internal Assessment thinking process</td></tr>
+        <tr><td><strong>MYP interdisciplinary</strong></td><td>RTF + SPARK + CREATE</td><td>Prior knowledge grounding + adaptive purpose + creative extension = full concept-to-application arc</td></tr>
+        <tr><td><strong>All frameworks</strong></td><td>Use all 9</td><td>Maximum depth — best for extended projects or DP Internal Assessments where students have multiple sessions</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Loading -->
-  <div id="enhance-loader" class="hidden text-center py-8">
-    <div class="inline-block w-8 h-8 border-4 border-surface-200 border-t-brand-600 rounded-full animate-spin"></div>
-    <p class="text-sm text-ink-muted mt-3">Enhancing your prompt...</p>
-  </div>
-
-  <!-- Output -->
-  <div id="enhance-output" class="hidden">
-    <div class="bg-white border border-surface-200 rounded-2xl overflow-hidden">
-      <div class="bg-surface-50 border-b border-surface-200 p-4 flex items-center justify-between">
-        <h3 class="font-bold text-sm">Enhanced Prompt</h3>
-        <button onclick="copyText('enhance-out-body')" class="tr px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold">Copy</button>
-      </div>
-      <div id="enhance-out-body" class="p-5 text-sm leading-relaxed whitespace-pre-wrap max-h-[500px] overflow-y-auto"></div>
-    </div>
-  </div>
 </div>
+</div><!-- /tab-frameworks -->
 
-<!-- ─────────── TAB 3: PD GUIDE ─────────── -->
-<div id="tab-guide" class="tab-panel hidden">
-  <div class="space-y-8">
+<!-- ════════════════════ TAB 3: PD GUIDE ════════════════════ -->
+<div class="tab-content" id="tab-guide">
+<div class="main">
+  <div class="guide-sec">
+    <div class="sec-lbl">What &amp; Why</div>
+    <h2 class="guide-h">What Are SVG Simulations?</h2>
+    <p class="guide-lead">A single HTML file that runs in any browser — no login, no app, no WiFi needed after download. Students interact with sliders, make predictions, and watch an animated visual world respond to their choices in real time.</p>
+    <div class="struct-diag">
+      <div class="struct-blk" style="background:var(--p2);border:1.5px solid var(--p3);color:var(--brm)">Animated SVG Scene</div>
+      <div class="struct-arr">+</div>
+      <div class="struct-blk" style="background:var(--sky);border:1.5px solid #96C0DC;color:var(--skyd)">Decision Sliders</div>
+      <div class="struct-arr">+</div>
+      <div class="struct-blk" style="background:var(--sage);border:1.5px solid #AACCA8;color:var(--saged)">Resource Bars</div>
+      <div class="struct-arr">+</div>
+      <div class="struct-blk" style="background:var(--rose);border:1.5px solid #E8AAAA;color:var(--rosd)">Predict → Reveal</div>
+      <div class="struct-arr">+</div>
+      <div class="struct-blk" style="background:#FDF0C8;border:1.5px solid #E8C858;color:var(--goldd)">Framework Layer</div>
+      <div class="struct-arr">+</div>
+      <div class="struct-blk" style="background:var(--lav);border:1.5px solid #C0B0E0;color:var(--lavd)">IB Reflection</div>
+    </div>
+    <div class="callout cl-info"><strong>Works for every IB subject</strong> Any topic with interacting variables that change over time can be simulated. The Prompt Enhancement Frameworks add the pedagogical structure on top — turning a visual activity into a deep thinking exercise.</div>
+  </div>
 
-    <!-- What & Why -->
-    <section class="bg-white border border-surface-200 rounded-2xl p-6">
-      <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">What &amp; Why</p>
-      <h2 class="text-xl font-bold mb-3">What Are SVG Simulations?</h2>
-      <p class="text-sm text-ink-muted leading-relaxed mb-4">A single HTML file that runs in any browser — no login, no app, no WiFi needed after download. Students interact with sliders, make predictions, and watch an animated visual world respond to their choices in real time.</p>
-      <div class="flex flex-wrap gap-2 items-center">
-        <span class="text-xs font-bold px-3 py-1.5 rounded-lg bg-accent-100 text-accent-700">🎨 SVG Scene</span>
-        <span class="text-ink-faint">+</span>
-        <span class="text-xs font-bold px-3 py-1.5 rounded-lg bg-brand-100 text-brand-700">⚙️ Decision Sliders</span>
-        <span class="text-ink-faint">+</span>
-        <span class="text-xs font-bold px-3 py-1.5 rounded-lg bg-green-100 text-green-700">📊 Resource Bars</span>
-        <span class="text-ink-faint">+</span>
-        <span class="text-xs font-bold px-3 py-1.5 rounded-lg bg-myp-light text-myp-dark">🔮 Predict → Reveal</span>
-      </div>
-    </section>
-
-    <!-- Master Template -->
-    <section class="bg-white border border-surface-200 rounded-2xl p-6">
-      <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Master Template</p>
-      <h2 class="text-xl font-bold mb-3">The One Prompt That Does It All</h2>
-      <p class="text-sm text-ink-muted leading-relaxed mb-4">Replace every <code class="bg-accent-100 text-accent-700 px-1.5 py-0.5 rounded text-xs font-mono">[BRACKET]</code> with your own content. Use the Simulation Prompter tab to do this automatically.</p>
-      <div class="bg-gray-900 rounded-xl p-5 text-xs font-mono text-gray-300 leading-relaxed overflow-x-auto whitespace-pre-wrap relative">
-        <button onclick="copyMaster()" class="absolute top-3 right-3 px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-gray-400 text-xs tr">Copy</button>
-<span id="master-prompt-text"><span class="text-gray-500">// SVG CLASSROOM SIMULATION — MASTER PROMPT
+  <div class="guide-sec">
+    <div class="sec-lbl">Master Template</div>
+    <h2 class="guide-h">The One Prompt That Does It All</h2>
+    <p class="guide-lead">Replace every <code style="background:var(--p3);color:var(--brm);padding:.1rem .4rem;border-radius:4px;font-size:.85em;font-family:'DM Mono',monospace">[YELLOW BRACKET]</code> with your content. The Generator above fills all of this automatically.</p>
+    <div class="callout cl-warn"><strong>Before pasting:</strong> Use Claude.ai in a fresh conversation. Paste the whole prompt at once. Claude generates a complete HTML file you can open in any browser.</div>
+    <div class="prompt-wrap">
+      <button class="copy-g-btn" onclick="copyGuidePrompt(this)">Copy master prompt</button>
+      <div class="prompt-blk" id="master-prompt-blk"><span class="cm">// SVG CLASSROOM SIMULATION — MASTER PROMPT
 // Replace every [BRACKET] then paste into Claude</span>
 
-You are an <span class="text-amber-400">[SUBJECT]</span> teacher creating an interactive simulation for Grade <span class="text-amber-400">[GRADE]</span> students.
+You are an <span class="ph">[SUBJECT]</span> teacher creating an interactive simulation for Grade <span class="ph">[GRADE]</span> students.
+<span class="kw">PERSONA FRAMEWORK:</span> <span class="ph">[e.g. "You are also Dr. Kaimana, a veteran marine biologist advising the island council..."]</span>
 
-<span class="text-indigo-400">SIMULATION TOPIC:</span> <span class="text-amber-400">[e.g. "population growth and resource scarcity"]</span>
-<span class="text-indigo-400">CURRICULUM:</span> <span class="text-amber-400">[e.g. "IB MYP Individuals &amp; Societies"]</span>
-<span class="text-indigo-400">KEY CONCEPT:</span> <span class="text-amber-400">[e.g. "Sustainability"]</span>
-<span class="text-indigo-400">RELATED CONCEPTS:</span> <span class="text-amber-400">[e.g. "Scarcity, Interdependence"]</span>
-<span class="text-indigo-400">LEARNER PROFILE:</span> <span class="text-amber-400">[e.g. "Thinkers, Caring"]</span>
-<span class="text-indigo-400">ATL SKILLS:</span> <span class="text-amber-400">[e.g. "Thinking, Research"]</span>
-<span class="text-indigo-400">SETTING:</span> <span class="text-amber-400">[Describe the visual scene]</span>
-<span class="text-indigo-400">SLIDERS:</span> <span class="text-amber-400">[3-6 student-controlled variables]</span>
-<span class="text-indigo-400">METRICS:</span> <span class="text-amber-400">[4-6 tracked resources, 0-100]</span>
-<span class="text-indigo-400">ROUNDS:</span> <span class="text-amber-400">[number]</span>
-<span class="text-indigo-400">VISUAL STYLE:</span> <span class="text-amber-400">[describe look and feel]</span>
+<span class="kw">SIMULATION TOPIC:</span> <span class="ph">[topic]</span> | <span class="kw">CURRICULUM:</span> <span class="ph">[IB MYP/DP subject]</span>
+<span class="kw">KEY CONCEPT:</span> <span class="ph">[concept]</span> | <span class="kw">LEARNER PROFILE:</span> <span class="ph">[attributes]</span>
 
-<span class="text-indigo-400">DELIVER AS:</span> a single self-contained HTML file with animated SVG,
-resource bars, prediction widget, trend chart, reflection panel.
+<span class="kw">PROMPT ENHANCEMENT FRAMEWORKS ACTIVE:</span>
+<span class="ph">• RTF: Show learning objectives at start. Each variable connects to prior concept. Structured feedback after every result.
+• Chain of Thought: Mandatory reasoning chain before Advance activates. Evaluate student reasoning after reveal.
+• ReAct: Each round has 4 labelled stages — REASON / ACT / OBSERVE / REFLECT. All required before next round.
+• [Add/remove frameworks as selected above]</span>
 
-<span class="text-indigo-400">AFTER GENERATING, ask the teacher:</span>
-"Would you like: A) Simplified version B) HL Extension
-C) Retheme D) Teacher Panel E) Student Worksheet F) Bilingual mode"</span></div>
-    </section>
+<span class="kw">SETTING:</span> <span class="ph">[visual scene description]</span>
+<span class="kw">SLIDERS:</span> <span class="ph">[list with 0→4 extremes labelled]</span>
+<span class="kw">METRICS:</span> <span class="ph">[4–6 bars with starting values]</span>
+<span class="kw">ROUNDS:</span> <span class="ph">[e.g. 5 rounds of 10 years each]</span>
+<span class="kw">PREDICTION:</span> Advance DISABLED until prediction selected. Show cause→effect chain after reveal.
+<span class="kw">REAL-WORLD CONNECTIONS:</span> <span class="ph">[3–4 real cases]</span>
+<span class="kw">REFLECTION QUESTIONS:</span> <span class="ph">[5–6 questions aligned to ATL and key concept]</span>
+<span class="kw">VISUAL STYLE:</span> <span class="ph">[style description]</span>
 
-    <!-- Tips -->
-    <section class="bg-white border border-surface-200 rounded-2xl p-6">
-      <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Power Tips</p>
-      <h2 class="text-xl font-bold mb-4">Getting Better Results</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <div class="p-4 rounded-xl bg-accent-50 border border-accent-200">
-          <p class="font-bold text-sm mb-1">🎯 Be specific about visuals</p>
-          <p class="text-xs text-ink-muted leading-relaxed">Don't say "make it interactive." Say "when forest drops below 30%, trees shrink and turn brown."</p>
-        </div>
-        <div class="p-4 rounded-xl bg-green-50 border border-green-200">
-          <p class="font-bold text-sm mb-1">⚖️ Build trade-offs</p>
-          <p class="text-xs text-ink-muted leading-relaxed">Best simulations have decisions that improve one metric while hurting another.</p>
-        </div>
-        <div class="p-4 rounded-xl bg-brand-50 border border-brand-200">
-          <p class="font-bold text-sm mb-1">🔄 Iterate in same chat</p>
-          <p class="text-xs text-ink-muted leading-relaxed">After Claude generates, say "change the colour scheme" — it regenerates keeping everything else.</p>
-        </div>
-      </div>
-    </section>
+<span class="kw">DELIVER AS: single self-contained HTML file</span> — animated SVG, resource bars, trend chart,
+prediction widget, timeline, advisor chips, IB reflection panel, splash screen, reset button,
+offline capable, responsive, resource bars green→amber→red.
 
-    <!-- Checklist -->
-    <section class="bg-white border border-surface-200 rounded-2xl p-6">
-      <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Before Class</p>
-      <h2 class="text-xl font-bold mb-4">Quality Checklist</h2>
-      <ul class="space-y-2 text-sm text-ink-muted">
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Open HTML in Chrome or Firefox and advance through all rounds</li>
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Verify prediction widget disables Advance until selected</li>
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Check resource bars animate green → amber → red</li>
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Confirm the visual scene changes when sliders are at extremes</li>
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Disconnect WiFi and reload — should work offline</li>
-        <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">☐</span> Test on both projector resolution and tablet</li>
-      </ul>
-    </section>
+<span class="kw">AFTER GENERATING, ask:</span> "Ready! Enhance it? A) Simplify B) HL questions C) Retheme
+D) Teacher panel E) Worksheet F) Bilingual G) Submission system — reply with letter(s) or 'none'."</div>
+    </div>
+  </div>
+
+<div class="guide-sec">
+    <div class="sec-lbl">Make it code bound</div>
+<h2 class="guide-h">The One Prompt That Adds an Access Gate</h2>
+<p class="guide-lead">Replace every <code style="background:var(--p3);color:var(--brm);padding:.1rem .4rem;border-radius:4px;font-size:.85em;font-family:'DM Mono',monospace">[YELLOW BRACKET]</code> with your content. The Generator above fills all of this automatically.</p>
+<div class="callout cl-warn"><strong>Before pasting:</strong> Use Claude.ai in a fresh conversation. Paste the whole prompt at once. Claude generates a complete HTML file you can open in any browser.</div>
+<div class="prompt-wrap">
+<button class="copy-g-btn" onclick="copyGuidePrompt(this)">Copy master prompt</button>
+<div class="prompt-blk" id="master-prompt-blk"><span class="cm">// ACCESS GATE — MASTER PROMPT
+// Replace every [BRACKET] then paste into Claude</span>
+You are adding a <span class="ph">[6-CHARACTER ALPHABETICAL ACCESS CODE]</span> gate screen to an existing HTML simulation.
+<span class="kw">GATE BEHAVIOUR:</span> <span class="ph">[e.g. "Shown as the first screen on load. All content behind it is hidden until the correct code is entered."]</span>
+<span class="kw">ACCESS CODE:</span> <span class="ph">[6-letter code, e.g. ABCDEF]</span> | <span class="kw">CASE SENSITIVITY:</span> <span class="ph">[case-insensitive / exact match]</span>
+<span class="kw">CODE SOURCE:</span> <span class="ph">[e.g. "Teacher distributes the code verbally or on a printed sheet before the session begins."]</span>
+<span class="kw">PROMPT ENHANCEMENT FRAMEWORKS ACTIVE:</span>
+<span class="ph">• Input validation: Strip spaces, enforce alpha-only, auto-uppercase before comparison.
+- Feedback loop: Show shake animation + error message on wrong entry. Clear field for retry.
+- Attempt limiting: Lock gate for [X] seconds after [N] failed attempts (optional).
+- [Add/remove behaviours as needed]</span>
+<span class="kw">GATE SCREEN LAYOUT:</span> <span class="ph">[e.g. centred card on a dark overlay — logo/title at top, 6-box character input, Submit button]</span>
+<span class="kw">CHARACTER INPUT STYLE:</span> <span class="ph">[e.g. one box per letter, auto-advance on keypress, paste-to-fill supported]</span>
+<span class="kw">SUCCESS BEHAVIOUR:</span> <span class="ph">[e.g. gate fades out, simulation splash screen animates in]</span>
+<span class="kw">ERROR BEHAVIOUR:</span> <span class="ph">[e.g. boxes shake red, "Incorrect code — try again" message, field clears]</span>
+<span class="kw">VISUAL STYLE:</span> <span class="ph">[style description matching the rest of your simulation]</span>
+<span class="kw">DELIVER AS: single self-contained HTML file</span> — gate screen embedded before main content,
+no server required, code stored as a JS constant, responsive, works offline,
+gate cannot be bypassed by inspecting URL or skipping JS.
+<span class="kw">AFTER GENERATING, ask:</span> "Ready! Enhance it? A) Randomise code per session B) Teacher code-reveal panel C) Countdown lockout D) Hint system E) Multiple valid codes F) Bilingual gate G) Printable code card — reply with letter(s) or 'none'."</div>
+</div>
+</div>
+  
+  <div class="guide-sec">
+    <div class="sec-lbl">Power Tips</div>
+    <h2 class="guide-h">Getting Better Results Every Time</h2>
+    <div class="tips-grid">
+      <div class="tip-c tc1"><h4>Be specific about visual feedback</h4><p>Say "when forest drops below 30%, trees shrink and turn brown." Claude executes what you describe literally — vague requests produce vague outputs.</p></div>
+      <div class="tip-c tc2"><h4>Build in genuine trade-offs</h4><p>The best simulations have decisions that improve one metric while hurting another. Explicitly state: "high farming = more food but less water."</p></div>
+      <div class="tip-c tc3"><h4>Layer frameworks for depth</h4><p>Chain of Thought + ReAct = students reason AND cycle. Tree of Thought + Self-Consistency = collaborative reasoning before reveal. The combinations create entirely different experiences.</p></div>
+      <div class="tip-c tc4"><h4>Use the Prompt Modifier</h4><p>After generating, click any modifier card to send targeted follow-ups to Claude — retheme, add HL questions, generate a worksheet — without rewriting the full prompt.</p></div>
+      <div class="tip-c tc5"><h4>For assessments: use GRADE framework</h4><p>GRADE embeds IB criterion alignment, three difficulty tracks, and an evidence log — making the simulation usable as a formal summative task with minimal extra setup.</p></div>
+      <div class="tip-c tc6"><h4>For DP: add Persona Prompting</h4><p>Having Claude adopt a domain expert persona calibrates the language, explanations, and advisor tips to the rigour expected in DP subjects — especially useful for Sciences and Economics.</p></div>
+    </div>
+  </div>
+
+  <div class="guide-sec">
+    <div class="sec-lbl">Before Class</div>
+    <h2 class="guide-h">Quality Checklist</h2>
+    <ul class="checklist">
+      <li>Open HTML in Chrome or Firefox (SVG animations perform best in Chrome)</li>
+      <li>Advance through all rounds — check no JavaScript errors (F12 → Console tab)</li>
+      <li>Verify prediction widget disables Advance button until prediction is selected</li>
+      <li>If using Chain of Thought or ReAct: verify reasoning boxes appear and are required</li>
+      <li>If using Tree of Thought: verify three futures appear before the reveal card</li>
+      <li>Check resource bars animate and shift colour green → amber → red correctly</li>
+      <li>Confirm IB Reflection panel opens with your custom discussion questions</li>
+      <li>Verify the visual scene changes meaningfully at slider extremes</li>
+      <li>Test Reset button restores all starting values</li>
+      <li>Disconnect WiFi and reload — should work offline (only Google Fonts need internet)</li>
+    </ul>
   </div>
 </div>
+</div><!-- /tab-guide -->
 
-</main>
-
-<!-- ═══════════════ HISTORY DRAWER ═══════════════ -->
-<div id="history-overlay" class="hidden fixed inset-0 bg-black/30 z-50" onclick="toggleHistory()"></div>
-<div id="history-drawer" class="fixed top-0 right-0 h-full w-80 bg-white border-l border-surface-200 z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="p-4 border-b border-surface-200 flex items-center justify-between">
-    <h3 class="font-bold text-sm">Prompt History</h3>
-    <button onclick="toggleHistory()" class="p-1 rounded hover:bg-surface-100 text-ink-muted">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
+<!-- ════════════════════ TAB 4: GITHUB ════════════════════ -->
+<div class="tab-content" id="tab-github">
+<div class="main">
+  <div class="guide-sec" style="padding-top:1rem">
+    <div class="sec-lbl">Hosting Your Simulation</div>
+    <h2 class="guide-h">GitHub Pages — Step by Step</h2>
+    <p class="guide-lead">GitHub Pages turns any HTML file into a shareable URL in under 5 minutes — completely free. Share with students, project in class, or embed in ManageBac.</p>
+    <div class="callout cl-info"><strong>What you get:</strong> A permanent URL like <code style="background:var(--sky);padding:.1rem .3rem;border-radius:4px;font-family:'DM Mono',monospace;font-size:.85em">https://your-name.github.io/eco-simulation/</code> that opens in any browser with no login.</div>
+    <div class="gh-flow">
+      <div class="gh-box">Your HTML file</div><div class="gh-arr">→</div>
+      <div class="gh-box">GitHub repo</div><div class="gh-arr">→</div>
+      <div class="gh-box">Enable Pages</div><div class="gh-arr">→</div>
+      <div class="gh-box" style="background:var(--sage);border-color:#AACCA8;color:var(--saged)">Live URL</div><div class="gh-arr">→</div>
+      <div class="gh-box">Share with students</div>
+    </div>
+    <div class="gh-step"><div class="gh-num">1</div><div class="gh-content"><h4>Create a free GitHub account</h4><p>Go to <strong>github.com</strong> — sign up with your school email. Use your teacher name, e.g. <em>ms-shah-fountainhead</em>. Verify your email before continuing.</p></div></div>
+    <div class="gh-step"><div class="gh-num">2</div><div class="gh-content"><h4>Create a new repository</h4><p>Click <strong>New</strong>. Name it e.g. <em>ib-eco-sim</em>. Choose Public or Private (see security section below). Tick "Add a README file" and click <strong>Create repository</strong>.</p></div></div>
+    <div class="gh-step"><div class="gh-num">3</div><div class="gh-content"><h4>Upload your HTML file</h4><p>Click <strong>Add file → Upload files</strong>. Drag your HTML in. Name it <strong>index.html</strong> — this is important. Click <strong>Commit changes</strong>.</p></div></div>
+    <div class="gh-step"><div class="gh-num">4</div><div class="gh-content"><h4>Enable GitHub Pages</h4><p>Go to <strong>Settings → Pages</strong>. Under Source, select <strong>Deploy from a branch</strong>, choose <strong>main</strong> and <strong>/ (root)</strong>. Click <strong>Save</strong>. Wait 60–90 seconds — the URL will appear in a green box.</p></div></div>
+    <div class="gh-step"><div class="gh-num">5</div><div class="gh-content"><h4>Share the link with students</h4><p>Copy the URL from Settings → Pages. Paste into ManageBac or Google Classroom. Students click — simulation opens immediately, no download or login needed.</p></div></div>
   </div>
-  <div id="history-list" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
-  <div class="p-3 border-t border-surface-200">
-    <button onclick="clearHistory()" class="w-full py-2 rounded-lg border border-red-200 text-red-500 text-xs font-bold hover:bg-red-50 tr">Clear All History</button>
+
+  <div class="guide-sec">
+    <div class="sec-lbl">Assessment Security</div>
+    <h2 class="guide-h">Keeping Assessment Simulations Private</h2>
+    <div class="warn-box"><strong>The problem:</strong> If a student follows your GitHub profile, they can see all public repositories — including assessments not yet released. Four solutions below.</div>
+    <div class="gh-step"><div class="gh-num">A</div><div class="gh-content"><h4>Unpublish Pages (simplest)</h4><p>Keep the repo <span class="badge badge-pub">Public</span> but <strong>unpublish Pages</strong> until assessment day. Go to Settings → Pages → Source → <strong>None</strong>. The URL stops working. Re-enable on assessment day — live again in ~60 seconds.</p></div></div>
+    <div class="gh-step"><div class="gh-num">B</div><div class="gh-content"><h4>Entering code to view the assessment</h4><p>Create the code as <span class="badge badge-priv">Private</span>. In the prompt you can add a page that stop students from viewing the assessment without that code to begin with. Inspired from Kahoot, menti, etc</p></div></div>
+    <div class="gh-step"><div class="gh-num">C</div><div class="gh-content"><h4>Private repository</h4><p>Create the repo as <span class="badge badge-priv">Private</span>. GitHub Pages on private repos requires a paid plan. Workaround: keep private until assessment day, then switch to Public + enable Pages, then switch back.</p></div></div>
+    <div class="gh-step"><div class="gh-num">D</div><div class="gh-content"><h4>Separate assessment account (recommended)</h4><p>Create a second GitHub account (e.g. <em>fountainhead-assessments</em>) that students don't follow. Upload all assessments there. Share the URL only at assessment time.</p></div></div>
+    <div class="gh-step"><div class="gh-num">E</div><div class="gh-content"><h4>Google Drive (no GitHub needed)</h4><p>Upload HTML to Google Drive. Share → "Anyone with the link can view". Opens directly in Chrome. Share link only at assessment time via ManageBac.</p></div></div>
+    <div class="info-box"><strong>Team recommendation:</strong> Use Option A for teaching simulations. Use Option C for formal assessments. Screen-recording the simulation before releasing the URL works well to preview it with students.</div>
   </div>
 </div>
+</div><!-- /tab-github -->
 
-<!-- ═══════════════ FOOTER ═══════════════ -->
-<footer class="text-center py-6 text-xs text-ink-faint border-t border-surface-200 mt-8">
-  <strong class="text-ink-muted">Fountainhead School</strong> · IB Prompt Generator
+
+<footer>
+  <strong>SVG Simulation Prompt Studio</strong> &nbsp;·&nbsp; Fountainhead School IB PD &nbsp;·&nbsp; Aayushi Shah<br>
+  Built with Claude AI &nbsp;·&nbsp; 9 Prompt Enhancement Frameworks &nbsp;·&nbsp; MYP + DP full database &nbsp;·&nbsp; Copy button fixed &nbsp;·&nbsp; GitHub guide included<br>
+  Share freely &nbsp;·&nbsp; Works in any browser &nbsp;·&nbsp; No login required
 </footer>
 
-<!-- ═══════════════════════════════════════════════════════
-     JAVASCRIPT — edit app.js, then run: python3 build.py
-     ═══════════════════════════════════════════════════════ -->
-<script src="app.js"></script>
-<!-- BUILD INJECT: obfuscated app.js will be inlined here by build.py -->
+<script src="main.js"></script>
+
 </body>
 </html>
