@@ -288,7 +288,7 @@
           <span class="chip" data-val="Add a teacher notes panel toggled by pressing T — shows marking criteria, model answers, and facilitation tips.">Teacher panel (T key)</span>
         </div>
       </div>
-      <div class="field">
+      <div class="field" style="margin-bottom:14px">
         <label>Simulation features</label>
         <div class="chip-row" id="feature-chips">
           <span class="chip on" data-val="Animated SVG scene that changes visually as resources change — trees shrink, water changes colour, buildings appear/disappear.">Animated scene</span>
@@ -302,25 +302,24 @@
         </div>
       </div>
     </div>
-
-    <!-- ══ TEACHER ASSESSMENT — NEW SECTION (no other code changed) ══ -->
-    <div class="card" style="margin-top:16px">
-      <div class="field" style="margin-bottom:10px">
-        <label>Do you want to include assessment criteria in this simulation?</label>
-        <p class="step-desc" style="margin:4px 0 10px">If yes, Claude will display your criteria on the splash screen and as a floating reference panel students can open at any time.</p>
-        <div class="chip-row" style="margin-top:8px">
-          <span class="chip" id="chip-assess-yes" onclick="setAssess('yes')">Yes — add assessment criteria</span>
-          <span class="chip on" id="chip-assess-no" onclick="setAssess('no')">No</span>
-        </div>
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="step-row" style="margin-bottom:0.5rem">
+        <div class="step-num sn-rose" style="font-size:0.85rem;width:28px;height:28px;line-height:28px">🔒</div>
+        <div class="step-title" style="font-size:1rem">Is this an assessment? (Add access code gate)</div>
       </div>
-      <div id="assess-code-wrap" style="display:none;margin-top:8px">
-        <div class="field">
-          <label>Enter your assessment code or criteria</label>
-          <textarea id="f-assess-code" placeholder="e.g. MYP Criterion A: Knowing and understanding — Level 5–6 descriptor. Students demonstrate thorough knowledge and understanding of content..." style="min-height:90px"></textarea>
+      <p class="step-desc" style="margin-top:0;margin-bottom:0.85rem">Select <strong>Yes</strong> to add a 6-character code gate before students can access the simulation — like Kahoot or Mentimeter. Students cannot enter without the code you set.</p>
+      <div class="prog-row" style="gap:10px;margin-bottom:0">
+        <button class="prog-btn" id="assess-btn-no" onclick="setAssessment(false)" style="flex:0 0 auto;padding:10px 28px">No</button>
+        <button class="prog-btn" id="assess-btn-yes" onclick="setAssessment(true)" style="flex:0 0 auto;padding:10px 28px">Yes — add access code</button>
+      </div>
+      <div id="access-code-wrap" style="display:none;margin-top:1rem">
+        <div class="field" style="max-width:320px">
+          <label>6-character access code (letters and numbers)</label>
+          <input id="f-access-code" type="text" maxlength="6" placeholder="e.g. AB3X9Z" style="font-family:'DM Mono',monospace;font-size:1.15rem;letter-spacing:0.18em;text-transform:uppercase;padding:10px 14px;border:1.5px solid var(--p3);border-radius:8px;width:100%;background:var(--p1);color:var(--ink);outline:none" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
+          <div style="font-size:12px;color:var(--ink3);margin-top:5px">Share this code with students only at assessment time. It will be embedded in the generated prompt.</div>
         </div>
       </div>
     </div>
-    <!-- ══ END TEACHER ASSESSMENT ══ -->
 
     <div class="build-wrap">
       <button class="build-btn" onclick="buildPrompt()">Generate my simulation prompt →</button>
@@ -481,7 +480,7 @@
       <div class="fw-detail-card fwdc1">
         <div class="fw-detail-name">Chain of Thought (CoT)</div>
         <div class="fw-detail-full">Step-by-Step Reasoning Externalisation</div>
-        <div class="fw-detail-desc">Before advancing each round, students must complete a reasoning chain in writing — making thinking visible.</div>
+        <div class="fw-detail-desc">Before advancing each round, students must complete a reasoning chain in writing — "I chose X because… which will lead to… because… therefore I predict…" — making thinking visible.</div>
         <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
           <li>Mandatory reasoning text box before Advance activates</li>
           <li>Advance button stays DISABLED until all chain blanks filled</li>
@@ -493,7 +492,7 @@
       <div class="fw-detail-card fwdc2">
         <div class="fw-detail-name">Tree of Thought (ToT)</div>
         <div class="fw-detail-full">Multi-Path Futures Evaluation</div>
-        <div class="fw-detail-desc">Before the real result is revealed, three plausible future scenarios are shown based on the student's decisions.</div>
+        <div class="fw-detail-desc">Before the real result is revealed, three plausible future scenarios are shown based on the student's decisions. Students rank them by likelihood with reasoning — then the real outcome appears.</div>
         <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
           <li>Three "possible futures" cards shown before reveal</li>
           <li>Students rank futures 1–3 by probability and briefly justify</li>
@@ -505,7 +504,7 @@
       <div class="fw-detail-card fwdc3">
         <div class="fw-detail-name">ReAct</div>
         <div class="fw-detail-full">Reason · Act · Observe · Reflect</div>
-        <div class="fw-detail-desc">Structures every round as a four-stage explicit cycle — students move through labelled RAOR stages.</div>
+        <div class="fw-detail-desc">Structures every round as a four-stage explicit cycle — students move through labelled RAOR stages, keeping cognitive process visible and structured throughout.</div>
         <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
           <li>Round UI split into 4 labelled panels: Reason / Act / Observe / Reflect</li>
           <li>REASON: Student writes hypothesis before touching sliders</li>
@@ -517,7 +516,7 @@
       <div class="fw-detail-card fwdc4">
         <div class="fw-detail-name">Self-Consistency (SC)</div>
         <div class="fw-detail-full">Multi-Perspective Verification</div>
-        <div class="fw-detail-desc">After the student makes a prediction, three advisor characters each make their own prediction with brief reasoning — visible to the student.</div>
+        <div class="fw-detail-desc">After the student makes a prediction, three advisor characters each make their own prediction with brief reasoning — visible to the student. Students compare reasoning before the reveal.</div>
         <div class="fw-detail-adds"><strong style="font-size:11px;color:var(--ink);display:block;margin-bottom:3px">What it adds:</strong><ul>
           <li>3 advisor predictions with 1-sentence reasoning each</li>
           <li>Student sees: "Advisor A predicts Thriving because… Do you agree?"</li>
@@ -641,17 +640,17 @@ gate cannot be bypassed by inspecting URL or skipping JS.
 <span class="kw">AFTER GENERATING, ask:</span> "Ready! Enhance it? A) Randomise code per session B) Teacher code-reveal panel C) Countdown lockout D) Hint system E) Multiple valid codes F) Bilingual gate G) Printable code card — reply with letter(s) or 'none'."</div>
 </div>
 </div>
-
+  
   <div class="guide-sec">
     <div class="sec-lbl">Power Tips</div>
     <h2 class="guide-h">Getting Better Results Every Time</h2>
     <div class="tips-grid">
       <div class="tip-c tc1"><h4>Be specific about visual feedback</h4><p>Say "when forest drops below 30%, trees shrink and turn brown." Claude executes what you describe literally — vague requests produce vague outputs.</p></div>
       <div class="tip-c tc2"><h4>Build in genuine trade-offs</h4><p>The best simulations have decisions that improve one metric while hurting another. Explicitly state: "high farming = more food but less water."</p></div>
-      <div class="tip-c tc3"><h4>Layer frameworks for depth</h4><p>Chain of Thought + ReAct = students reason AND cycle. Tree of Thought + Self-Consistency = collaborative reasoning before reveal.</p></div>
+      <div class="tip-c tc3"><h4>Layer frameworks for depth</h4><p>Chain of Thought + ReAct = students reason AND cycle. Tree of Thought + Self-Consistency = collaborative reasoning before reveal. The combinations create entirely different experiences.</p></div>
       <div class="tip-c tc4"><h4>Use the Prompt Modifier</h4><p>After generating, click any modifier card to send targeted follow-ups to Claude — retheme, add HL questions, generate a worksheet — without rewriting the full prompt.</p></div>
       <div class="tip-c tc5"><h4>For assessments: use GRADE framework</h4><p>GRADE embeds IB criterion alignment, three difficulty tracks, and an evidence log — making the simulation usable as a formal summative task with minimal extra setup.</p></div>
-      <div class="tip-c tc6"><h4>For DP: add Persona Prompting</h4><p>Having Claude adopt a domain expert persona calibrates the language, explanations, and advisor tips to the rigour expected in DP subjects.</p></div>
+      <div class="tip-c tc6"><h4>For DP: add Persona Prompting</h4><p>Having Claude adopt a domain expert persona calibrates the language, explanations, and advisor tips to the rigour expected in DP subjects — especially useful for Sciences and Economics.</p></div>
     </div>
   </div>
 
@@ -690,8 +689,8 @@ gate cannot be bypassed by inspecting URL or skipping JS.
       <div class="gh-box">Share with students</div>
     </div>
     <div class="gh-step"><div class="gh-num">1</div><div class="gh-content"><h4>Create a free GitHub account</h4><p>Go to <strong>github.com</strong> — sign up with your school email. Use your teacher name, e.g. <em>ms-shah-fountainhead</em>. Verify your email before continuing.</p></div></div>
-    <div class="gh-step"><div class="gh-num">2</div><div class="gh-content"><h4>Create a new repository</h4><p>Click <strong>New</strong>. Name it e.g. <em>ib-eco-sim</em>. Choose Public or Private. Tick "Add a README file" and click <strong>Create repository</strong>.</p></div></div>
-    <div class="gh-step"><div class="gh-num">3</div><div class="gh-content"><h4>Upload your HTML file</h4><p>Click <strong>Add file → Upload files</strong>. Drag your HTML in. Name it <strong>index.html</strong>. Click <strong>Commit changes</strong>.</p></div></div>
+    <div class="gh-step"><div class="gh-num">2</div><div class="gh-content"><h4>Create a new repository</h4><p>Click <strong>New</strong>. Name it e.g. <em>ib-eco-sim</em>. Choose Public or Private (see security section below). Tick "Add a README file" and click <strong>Create repository</strong>.</p></div></div>
+    <div class="gh-step"><div class="gh-num">3</div><div class="gh-content"><h4>Upload your HTML file</h4><p>Click <strong>Add file → Upload files</strong>. Drag your HTML in. Name it <strong>index.html</strong> — this is important. Click <strong>Commit changes</strong>.</p></div></div>
     <div class="gh-step"><div class="gh-num">4</div><div class="gh-content"><h4>Enable GitHub Pages</h4><p>Go to <strong>Settings → Pages</strong>. Under Source, select <strong>Deploy from a branch</strong>, choose <strong>main</strong> and <strong>/ (root)</strong>. Click <strong>Save</strong>. Wait 60–90 seconds — the URL will appear in a green box.</p></div></div>
     <div class="gh-step"><div class="gh-num">5</div><div class="gh-content"><h4>Share the link with students</h4><p>Copy the URL from Settings → Pages. Paste into ManageBac or Google Classroom. Students click — simulation opens immediately, no download or login needed.</p></div></div>
   </div>
@@ -701,7 +700,7 @@ gate cannot be bypassed by inspecting URL or skipping JS.
     <h2 class="guide-h">Keeping Assessment Simulations Private</h2>
     <div class="warn-box"><strong>The problem:</strong> If a student follows your GitHub profile, they can see all public repositories — including assessments not yet released. Four solutions below.</div>
     <div class="gh-step"><div class="gh-num">A</div><div class="gh-content"><h4>Unpublish Pages (simplest)</h4><p>Keep the repo <span class="badge badge-pub">Public</span> but <strong>unpublish Pages</strong> until assessment day. Go to Settings → Pages → Source → <strong>None</strong>. The URL stops working. Re-enable on assessment day — live again in ~60 seconds.</p></div></div>
-    <div class="gh-step"><div class="gh-num">B</div><div class="gh-content"><h4>Entering code to view the assessment</h4><p>Create the code as <span class="badge badge-priv">Private</span>. In the prompt you can add a page that stops students from viewing the assessment without that code to begin with. Inspired from Kahoot, menti, etc</p></div></div>
+    <div class="gh-step"><div class="gh-num">B</div><div class="gh-content"><h4>Entering code to view the assessment</h4><p>Create the code as <span class="badge badge-priv">Private</span>. In the prompt you can add a page that stop students from viewing the assessment without that code to begin with. Inspired from Kahoot, menti, etc</p></div></div>
     <div class="gh-step"><div class="gh-num">C</div><div class="gh-content"><h4>Private repository</h4><p>Create the repo as <span class="badge badge-priv">Private</span>. GitHub Pages on private repos requires a paid plan. Workaround: keep private until assessment day, then switch to Public + enable Pages, then switch back.</p></div></div>
     <div class="gh-step"><div class="gh-num">D</div><div class="gh-content"><h4>Separate assessment account (recommended)</h4><p>Create a second GitHub account (e.g. <em>fountainhead-assessments</em>) that students don't follow. Upload all assessments there. Share the URL only at assessment time.</p></div></div>
     <div class="gh-step"><div class="gh-num">E</div><div class="gh-content"><h4>Google Drive (no GitHub needed)</h4><p>Upload HTML to Google Drive. Share → "Anyone with the link can view". Opens directly in Chrome. Share link only at assessment time via ManageBac.</p></div></div>
