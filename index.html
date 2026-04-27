@@ -303,20 +303,27 @@
       </div>
     </div>
     <div class="card" style="margin-bottom:1.25rem">
-      <div class="step-row" style="margin-bottom:0.5rem">
-        <div class="step-num sn-rose" style="font-size:0.85rem;width:28px;height:28px;line-height:28px">🔒</div>
-        <div class="step-title" style="font-size:1rem">Is this an assessment? (Add access code gate)</div>
-      </div>
-      <p class="step-desc" style="margin-top:0;margin-bottom:0.85rem">Select <strong>Yes</strong> to add a 6-character code gate before students can access the simulation — like Kahoot or Mentimeter. Students cannot enter without the code you set.</p>
+      <div class="assess-heading">Is this simulation for a formal assessment?</div>
+      <p class="assess-desc">Choose <strong>Yes — Assessment</strong> to embed a code gate that locks the simulation until students enter your chosen code. Choose <strong>No — Teaching Tool</strong> to generate a freely accessible simulation.</p>
       <div class="prog-row" style="gap:10px;margin-bottom:0">
-        <button class="prog-btn" id="assess-btn-no" onclick="setAssessment(false)" style="flex:0 0 auto;padding:10px 28px">No</button>
-        <button class="prog-btn" id="assess-btn-yes" onclick="setAssessment(true)" style="flex:0 0 auto;padding:10px 28px">Yes — add access code</button>
+        <button class="prog-btn" id="assess-btn-yes" onclick="setAssessment(true)">🔒 YES — ASSESSMENT</button>
+        <button class="prog-btn" id="assess-btn-no" onclick="setAssessment(false)">📖 NO — TEACHING TOOL</button>
       </div>
-      <div id="access-code-wrap" style="display:none;margin-top:1rem">
-        <div class="field" style="max-width:320px">
-          <label>6-character access code (letters and numbers)</label>
-          <input id="f-access-code" type="text" maxlength="6" placeholder="e.g. AB3X9Z" style="font-family:'DM Mono',monospace;font-size:1.15rem;letter-spacing:0.18em;text-transform:uppercase;padding:10px 14px;border:1.5px solid var(--p3);border-radius:8px;width:100%;background:var(--p1);color:var(--ink);outline:none" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
-          <div style="font-size:12px;color:var(--ink3);margin-top:5px">Share this code with students only at assessment time. It will be embedded in the generated prompt.</div>
+      <div id="access-code-wrap" style="display:none;margin-top:1.25rem">
+        <div class="access-code-panel">
+          <div class="access-panel-label">🔒 SET YOUR ASSESSMENT ACCESS CODE</div>
+          <p class="access-panel-desc">Enter any combination of letters (A-Z, a-z), numbers (0-9), and symbols (!@#$%&amp;*). Up to 8 characters.</p>
+          <div class="code-entry-row">
+            <div class="code-boxes" id="code-boxes"></div>
+            <button class="set-code-btn" onclick="setAccessCode()">SET CODE →</button>
+          </div>
+          <div id="code-set-confirm" style="display:none" class="code-set-confirm">✓ Code set: <strong id="code-set-display"></strong></div>
+          <div id="code-set-info" style="display:none" class="code-set-info">
+            <div class="code-info-title">🔒 Your assessment code is set</div>
+            <div style="margin-bottom:0.5rem">Code: &nbsp;<span class="code-info-value" id="code-info-display"></span></div>
+            <div><strong>Teacher tip:</strong></div>
+            <div>Reveal this code verbally at the start of the assessment only. The simulation will show a full lock screen until students enter the correct code.</div>
+          </div>
         </div>
       </div>
     </div>

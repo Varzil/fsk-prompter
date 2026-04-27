@@ -1688,22 +1688,71 @@ function getChipVals(id){
   return Array.from(document.querySelectorAll('#'+id+' .chip.on,#'+id+' .chip.on-sky')).map(function(c){return c.dataset.val});
 }
 
+function initCodeBoxes(){
+  var wrap=document.getElementById('code-boxes');
+  if(!wrap||wrap.children.length>0)return;
+  for(var i=0;i<8;i++){
+    var inp=document.createElement('input');
+    inp.type='text';inp.maxLength=1;inp.className='code-box';
+    inp.dataset.idx=i;
+    inp.addEventListener('input',function(e){
+      var v=e.target.value.replace(/[^A-Za-z0-9!@#$%&*]/g,'');
+      e.target.value=v;
+      if(v&&parseInt(e.target.dataset.idx)<7){
+        var next=wrap.children[parseInt(e.target.dataset.idx)+1];
+        if(next)next.focus();
+      }
+    });
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&!e.target.value&&parseInt(e.target.dataset.idx)>0){
+        var prev=wrap.children[parseInt(e.target.dataset.idx)-1];
+        if(prev){prev.focus();prev.value='';}
+      }
+    });
+    inp.addEventListener('paste',function(e){
+      e.preventDefault();
+      var pasted=(e.clipboardData||window.clipboardData).getData('text').replace(/[^A-Za-z0-9!@#$%&*]/g,'').slice(0,8);
+      var boxes=wrap.children;
+      for(var j=0;j<boxes.length;j++) boxes[j].value=pasted[j]||'';
+    });
+    wrap.appendChild(inp);
+  }
+}
+
+function setAccessCode(){
+  var boxes=document.getElementById('code-boxes').children;
+  var code='';
+  for(var i=0;i<boxes.length;i++) code+=boxes[i].value;
+  code=code.trim();
+  if(code.length<1){alert('Please enter at least 1 character for your access code.');return;}
+  state.accessCode=code;
+  document.getElementById('code-set-display').textContent=code;
+  document.getElementById('code-info-display').textContent=code;
+  document.getElementById('code-set-confirm').style.display='block';
+  document.getElementById('code-set-info').style.display='block';
+}
+
 function setAssessment(val){
   state.assessment=val;
-  document.getElementById('assess-btn-yes').classList.toggle('a-myp',val===true);
+  document.getElementById('assess-btn-yes').classList.toggle('a-assess',val===true);
   document.getElementById('assess-btn-yes').classList.toggle('prog-btn',true);
   document.getElementById('assess-btn-no').classList.toggle('a-myp',val===false);
   document.getElementById('assess-btn-no').classList.toggle('prog-btn',true);
   document.getElementById('access-code-wrap').style.display=val?'block':'none';
-  if(!val){state.accessCode='';document.getElementById('f-access-code').value='';}
+  if(!val){
+    state.accessCode='';
+    var boxes=document.getElementById('code-boxes').children;
+    for(var i=0;i<boxes.length;i++) boxes[i].value='';
+    document.getElementById('code-set-confirm').style.display='none';
+    document.getElementById('code-set-info').style.display='none';
+  }
+  if(val) initCodeBoxes();
 }
 
 function buildPrompt(){
   if(state.subj===null||state.topic===null){alert('Please select a subject and topic first.');return;}
   if(state.assessment){
-    var code=document.getElementById('f-access-code').value.trim().toUpperCase();
-    if(!/^[A-Z0-9]{6}$/.test(code)){alert('Please enter a valid 6-character alphanumeric access code (letters and numbers only).');return;}
-    state.accessCode=code;
+    if(!state.accessCode||state.accessCode.length<1){alert('Please set your assessment access code first — click SET CODE after entering it.');return;}
   }
   var prog=state.prog,subj=DATA[prog][state.subj],t=subj.topics[state.topic];
   var grade=document.getElementById('f-grade').value;
@@ -1788,11 +1837,10 @@ function buildPrompt(){
       +'ACCESS CODE: '+state.accessCode+'\n'
       +'GATE BEHAVIOUR:\n'
       +'• Show a centred card on a dark overlay as the very first screen on load — all simulation content is hidden behind it.\n'
-      +'• Display 6 individual letter/number input boxes side by side. Auto-advance focus to the next box on each keypress. Support paste-to-fill (paste a 6-char string to fill all boxes).\n'
-      +'• Input is case-insensitive — convert to uppercase before comparison.\n'
-      +'• Strip spaces before validating.\n'
+      +'• Display one input box per character (up to 8 boxes matching the code length) side by side. Auto-advance focus to the next box on each keypress. Support paste-to-fill.\n'
+      +'• Input is case-insensitive — compare without case sensitivity. Strip spaces before validating.\n'
       +'• On correct code: gate fades out smoothly, simulation splash screen animates in.\n'
-      +'• On wrong code: all 6 boxes shake red, show "Incorrect code — please try again" message, clear all boxes and return focus to box 1.\n'
+      +'• On wrong code: all boxes shake red, show "Incorrect code — please try again" message, clear all boxes and return focus to box 1.\n'
       +'• Lock the gate for 10 seconds after 3 consecutive failed attempts — show a countdown timer.\n'
       +'• Store the code as a JS constant — it cannot be bypassed by inspecting the URL or skipping JS.\n'
       +'• Visual style of the gate should match the rest of the simulation.\n':'')
@@ -1865,10 +1913,13 @@ function downloadPrompt(){
 function resetAll(){
   state.subj=null;state.topic=null;state.frameworks=[];state.assessment=false;state.accessCode='';
   hide('topic-section');hide('enhancer-section');hide('custom-section');hide('out-section');
-  document.getElementById('assess-btn-yes').classList.remove('a-myp');
+  document.getElementById('assess-btn-yes').classList.remove('a-assess');
   document.getElementById('assess-btn-no').classList.remove('a-myp');
   document.getElementById('access-code-wrap').style.display='none';
-  document.getElementById('f-access-code').value='';
+  var boxes=document.getElementById('code-boxes').children;
+  for(var i=0;i<boxes.length;i++) boxes[i].value='';
+  document.getElementById('code-set-confirm').style.display='none';
+  document.getElementById('code-set-info').style.display='none';
   document.querySelectorAll('.sc').forEach(function(el){el.className='sc'});
   document.getElementById('topic-select').value='';
   document.querySelectorAll('.fw-card').forEach(function(c){c.classList.remove('fw-on')});

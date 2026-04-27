@@ -46,6 +46,23 @@ body{font-family:"Inter",sans-serif;background:var(--s0);color:var(--s4);min-hei
 .prog-btn:hover{border-color:var(--s3);color:var(--s4)}
 .prog-btn.a-myp{background:var(--rose);border-color:var(--rosd);color:var(--s4)}
 .prog-btn.a-dp{background:var(--s3);border-color:var(--s3);color:var(--white)}
+.prog-btn.a-assess{background:#2d5a4e;border-color:#2d5a4e;color:#fff}
+.assess-heading{font-family:"Recoleta",serif;font-size:1.25rem;font-weight:700;color:var(--s4);margin-bottom:0.5rem}
+.assess-desc{font-size:14px;color:var(--rosd);line-height:1.7;margin-bottom:1.1rem}
+.assess-desc strong{font-weight:700}
+.access-code-panel{background:#f0f5f2;border-radius:12px;padding:1.25rem 1.5rem}
+.access-panel-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2d5a4e;margin-bottom:0.5rem}
+.access-panel-desc{font-size:13px;color:#555;margin-bottom:1rem;line-height:1.65}
+.code-entry-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:1rem}
+.code-boxes{display:flex;gap:8px}
+.code-box{width:52px;height:56px;border:2px solid #2d5a4e;border-radius:10px;font-family:"DM Mono",monospace;font-size:1.2rem;font-weight:500;text-align:center;color:#2d5a4e;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.code-box:focus{border-color:#1a3d33;box-shadow:0 0 0 3px rgba(45,90,78,.15)}
+.set-code-btn{background:#2d5a4e;color:#fff;border:none;border-radius:10px;padding:0 22px;height:56px;font-family:"Inter",sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .15s}
+.set-code-btn:hover{background:#1a3d33}
+.code-set-confirm{background:#e4f0ec;border-radius:8px;padding:10px 14px;font-size:14px;color:#2d5a4e;font-weight:500;margin-bottom:0.75rem}
+.code-set-info{background:#eaefed;border-radius:10px;padding:1rem 1.25rem;font-size:14px;color:#333;line-height:1.8}
+.code-info-title{font-weight:700;color:#2d5a4e;margin-bottom:0.4rem}
+.code-info-value{font-family:"DM Mono",monospace;font-size:1.15rem;letter-spacing:.22em;font-weight:500}
 .subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:.5rem}
 .sc{border:1.5px solid var(--bord);border-radius:var(--r);padding:14px 16px;cursor:pointer;background:var(--white);transition:all .18s;display:flex;flex-direction:column;gap:6px}
 .sc:hover{border-color:var(--s3);box-shadow:0 4px 16px rgba(152,64,99,.12)}
