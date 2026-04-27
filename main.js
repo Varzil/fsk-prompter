@@ -1691,7 +1691,7 @@ function getChipVals(id){
 function initCodeBoxes(){
   var wrap=document.getElementById('code-boxes');
   if(!wrap||wrap.children.length>0)return;
-  for(var i=0;i<8;i++){
+  for(var i=0;i<6;i++){
     var inp=document.createElement('input');
     inp.type='text';inp.maxLength=1;inp.className='code-box';
     inp.dataset.idx=i;

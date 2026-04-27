@@ -47,6 +47,8 @@ body{font-family:"Inter",sans-serif;background:var(--s0);color:var(--s4);min-hei
 .prog-btn.a-myp{background:var(--rose);border-color:var(--rosd);color:var(--s4)}
 .prog-btn.a-dp{background:var(--s3);border-color:var(--s3);color:var(--white)}
 .prog-btn.a-assess{background:#2d5a4e;border-color:#2d5a4e;color:#fff}
+#assess-btn-yes,#assess-btn-no{flex:1;padding:15px 20px;font-size:13px;border-radius:10px}
+#assess-btn-no{border-color:var(--rosd);color:var(--s3)}
 .assess-heading{font-family:"Recoleta",serif;font-size:1.25rem;font-weight:700;color:var(--s4);margin-bottom:0.5rem}
 .assess-desc{font-size:14px;color:var(--rosd);line-height:1.7;margin-bottom:1.1rem}
 .assess-desc strong{font-weight:700}
